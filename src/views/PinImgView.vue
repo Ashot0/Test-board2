@@ -18,9 +18,6 @@
 			@click.stop
 			class="pin-img-view__text"
 		>
-			<p>
-				Я немного не понял на что именно вешать тень, поэтому она на самом пине
-			</p>
 			<router-link to="/">Линк на home</router-link>
 		</div>
 	</div>
