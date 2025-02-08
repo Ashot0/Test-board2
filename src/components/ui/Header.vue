@@ -33,6 +33,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 const isMenuOpen = ref(false);
 const isCompact = ref(false);
 const isHidden = ref(false);
+
 let lastScrollY = window.scrollY;
 
 const toggleMenu = () => {

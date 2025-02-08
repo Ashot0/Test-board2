@@ -19,9 +19,10 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 import { Field, ErrorMessage } from 'vee-validate';
 import Multiselect from 'vue-multiselect';
-import { computed } from 'vue';
 
 const props = defineProps({
 	name: String,

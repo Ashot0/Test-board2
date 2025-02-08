@@ -5,11 +5,15 @@
 			:class="{ 'pin-img__pin_active': isOpen }"
 			class="pin-img__pin"
 		>
-			<img class="pin-img__plus" src="@/assets/Images/icon-plus.png" alt="" />
+			<img
+				class="pin-img__plus"
+				src="@/assets/Images/icon-plus.png"
+				alt="plus"
+			/>
 		</button>
 
 		<div :class="{ 'pin-img__text_active': isOpen }" class="pin-img__text">
-			<router-link to="/">Линк на home</router-link>
+			<slot> </slot>
 		</div>
 	</div>
 </template>
@@ -46,16 +50,21 @@ const hideText = () => {
 		align-items: center;
 		cursor: pointer;
 		transform: translate(-50%, -50%);
-		transition: transform 0.3s, width 0.3s, height 0.3s, box-shadow 0.3s;
+		transition: transform 0.3s, box-shadow 0.3s;
+		will-change: transform;
 
 		&:hover {
-			width: 37.5px;
-			height: 37.5px;
+			transform: translate(-50%, -50%) scale(calc((100% / 30) * 37.5));
 		}
 
 		&_active {
 			transform: translate(-50%, -50%) rotate(45deg);
 			box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+
+			&:hover {
+				transform: translate(-50%, -50%) scale(calc((100% / 30) * 37.5))
+					rotate(45deg);
+			}
 		}
 	}
 
@@ -69,7 +78,7 @@ const hideText = () => {
 		height: 0px;
 		background-color: var(--white-color);
 		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-		overflow: hidden;
+		overflow: auto;
 		padding: 0 10px;
 		transition: padding 0.3s, height 0.3s;
 

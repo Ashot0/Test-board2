@@ -1,6 +1,7 @@
 <template>
 	<Form class="form" :initial-values="values" @submit="onSubmit">
 		<h3 class="form__title">{{ props.title }}</h3>
+
 		<template v-for="field in formFields.inputFields" :key="field.name">
 			<FormInput
 				class="form__input"

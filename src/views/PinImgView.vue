@@ -1,14 +1,18 @@
 <template>
 	<LoaderDefault @loaded="onImagesLoaded" />
+
 	<div v-if="!loader" class="pin-img-view">
-		<PinComponent class="pin-img-view__pin--lamp" />
+		<PinDropdown class="pin-img-view__pin--lamp">
+			<router-link to="/">Линк на home</router-link>
+		</PinDropdown>
 	</div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+
 import LoaderDefault from '@/components/ui/LoaderDefault.vue';
-import PinComponent from '@/components/PinImgView/PinComponent.vue';
+import PinDropdown from '@/components/PinImgView/PinDropdown.vue';
 
 const loader = ref(true);
 

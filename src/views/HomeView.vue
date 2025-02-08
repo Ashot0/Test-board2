@@ -2,6 +2,7 @@
 	<div class="home">
 		<LoaderDefault @loaded="onImagesLoaded" />
 		<Header />
+
 		<div v-if="!loader" class="home__text">
 			<!-- text -->
 		</div>
@@ -10,6 +11,7 @@
 
 <script setup>
 import { ref } from 'vue';
+
 import LoaderDefault from '@/components/ui/LoaderDefault.vue';
 import Header from '@/components/ui/Header.vue';
 
