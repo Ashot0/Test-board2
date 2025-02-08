@@ -1,14 +1,23 @@
 <template>
 	<div class="home">
+		<LoaderDefault @loaded="onImagesLoaded" />
 		<Header />
-		<div class="home__text">
+		<div v-if="!loader" class="home__text">
 			<!-- text -->
 		</div>
 	</div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import LoaderDefault from '@/components/ui/LoaderDefault.vue';
 import Header from '@/components/ui/Header.vue';
+
+const loader = ref(true);
+
+const onImagesLoaded = () => {
+	loader.value = false;
+};
 </script>
 
 <style lang="scss" scoped>

@@ -14,15 +14,15 @@
 		</button>
 
 		<nav :class="['header__nav', { 'header__nav--open': isMenuOpen }]">
-			<router-link class="header__link" to="/" @click="closeMenu"
-				>Home</router-link
-			>
-			<router-link class="header__link" to="/form" @click="closeMenu"
-				>Form</router-link
-			>
-			<router-link class="header__link" to="/pin-img" @click="closeMenu"
-				>Pin-Img</router-link
-			>
+			<router-link class="header__link" to="/" @click="closeMenu">
+				Home
+			</router-link>
+			<router-link class="header__link" to="/form" @click="closeMenu">
+				Form
+			</router-link>
+			<router-link class="header__link" to="/pin-img" @click="closeMenu">
+				Pin-Img
+			</router-link>
 		</nav>
 	</header>
 </template>
@@ -59,11 +59,11 @@ const closeMenu = () => {
 
 const handleScroll = () => {
 	const scrollY = window.scrollY;
-	if (window.innerWidth > 768) {
+	if (window.innerWidth > 1024) {
 		isCompact.value = scrollY > 250;
 	}
 
-	if (window.innerWidth <= 768 && window.innerWidth > window.innerHeight) {
+	if (window.innerWidth <= 1024 && window.innerWidth > window.innerHeight) {
 		isHidden.value =
 			scrollY > lastScrollY + 60
 				? true
@@ -93,14 +93,14 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 	transition: padding 0.3s ease, transform 0.3s ease-in-out;
 
 	&--compact {
-		@media (min-width: 769px) {
+		@media (min-width: 1025px) {
 			padding: 10px 15px;
 			justify-content: center;
 		}
 	}
 
 	&--hidden {
-		@media (max-width: 768px) and (orientation: landscape) {
+		@media (max-width: 1024px) and (orientation: landscape) {
 			transform: translateY(-100%);
 		}
 	}

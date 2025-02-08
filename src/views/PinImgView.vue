@@ -1,5 +1,6 @@
 <template>
-	<div @click="hiddenText" class="pin-img-view">
+	<LoaderDefault @loaded="onImagesLoaded" />
+	<div v-if="!loader" @click="hiddenText" class="pin-img-view">
 		<button
 			@click.stop="toggleText"
 			:class="{ 'pin-img-view__pin_active': isOpen }"
@@ -27,7 +28,13 @@
 
 <script setup>
 import { ref } from 'vue';
+import LoaderDefault from '@/components/ui/LoaderDefault.vue';
 
+const loader = ref(true);
+
+const onImagesLoaded = () => {
+	loader.value = false;
+};
 const isOpen = ref(false);
 
 const toggleText = () => {
