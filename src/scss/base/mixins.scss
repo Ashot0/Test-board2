@@ -8,14 +8,14 @@
 	left: $vw-value;
 }
 
-@mixin dynamic-viewport-offset-left($base-left) {
-	$diff: calc(100vh - 67.2vw);
-	$offset: calc($diff * 0.198);
+@mixin dynamic-viewport-offset-left($base-left, $displacement-force-coefficient, $smoothness-coefficient) {
+	$diff: calc(100vh - (100vw * $displacement-force-coefficient));
+	$offset: calc($diff * $smoothness-coefficient);
 	left: calc(#{$base-left} - #{$offset});
 }
 
-@mixin dynamic-viewport-offset-top($base-left) {
-	$diff: calc(100vw - 134vh);
-	$offset: calc($diff * 0.006);
+@mixin dynamic-viewport-offset-top($base-left, $displacement-force-coefficient, $smoothness-coefficient) {
+	$diff: calc(100vw - (100vh * $displacement-force-coefficient));
+	$offset: calc($diff * $smoothness-coefficient);
 	top: calc(#{$base-left} - #{$offset});
 }

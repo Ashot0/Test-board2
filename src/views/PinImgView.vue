@@ -54,11 +54,19 @@ const onImagesLoaded = () => {
 			transform: translate(-50%, -50%);
 
 			@media (max-aspect-ratio: 3/2) {
-				@include dynamic-viewport-offset-left(100vw / 4000px * 1476px);
+				@include dynamic-viewport-offset-left(
+					100vw / 4000px * 1476px,
+					0.672,
+					0.198
+				);
 			}
 
 			@media (min-aspect-ratio: 3/2) {
-				@include dynamic-viewport-offset-top(100vh / 2668px * 1293px);
+				@include dynamic-viewport-offset-top(
+					100vh / 2668px * 1293px,
+					1.34,
+					0.006
+				);
 			}
 		}
 	}
