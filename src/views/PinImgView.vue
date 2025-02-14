@@ -55,9 +55,9 @@ const onImagesLoaded = () => {
 
 			@media (max-aspect-ratio: 3/2) {
 				@include dynamic-viewport-offset-left(
-					100vw / 4000px * 1476px,
-					0.672,
-					0.198
+					100vw / 4000px * 1478px,
+					0.671,
+					0.196
 				);
 			}
 
