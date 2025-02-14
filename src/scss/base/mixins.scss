@@ -1,0 +1,21 @@
+@mixin vh-percentage($image-height, $top-offset) {
+	$vh-value: 100vh / $image-height * $top-offset;
+	top: $vh-value;
+}
+
+@mixin vw-percentage($image-width, $left-offset) {
+	$vw-value: 100vw / $image-width * $left-offset;
+	left: $vw-value;
+}
+
+@mixin dynamic-viewport-offset-left($base-left) {
+	$diff: calc(100vh - 67.2vw);
+	$offset: calc($diff * 0.198);
+	left: calc(#{$base-left} - #{$offset});
+}
+
+@mixin dynamic-viewport-offset-top($base-left) {
+	$diff: calc(100vw - 134vh);
+	$offset: calc($diff * 0.006);
+	top: calc(#{$base-left} - #{$offset});
+}

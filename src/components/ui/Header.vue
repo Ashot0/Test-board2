@@ -13,7 +13,12 @@
 			<span></span>
 		</button>
 
-		<nav :class="['header__nav', { 'header__nav--open': isMenuOpen }]">
+		<nav
+			:class="[
+				'header__nav',
+				{ 'header__nav--open': isMenuOpen, 'header__nav--compact': isCompact },
+			]"
+		>
 			<router-link class="header__link" to="/" @click="closeMenu">
 				Home
 			</router-link>
@@ -35,42 +40,44 @@ const isCompact = ref(false);
 const isHidden = ref(false);
 
 let lastScrollY = window.scrollY;
+let scrollUpDistance = 0;
 
 const toggleMenu = () => {
 	if (isMenuOpen.value) {
 		const scrollY = Math.abs(parseInt(document.body.style.top || '0'));
-		document.body.style.overflow = '';
-		document.body.style.position = '';
-		document.body.style.width = '';
-		document.body.style.top = '';
+		Object.assign(document.body.style, {
+			overflow: '',
+			position: '',
+			width: '',
+			top: '',
+		});
 		window.scrollTo(0, scrollY);
 	} else {
-		document.body.style.top = `-${window.scrollY}px`;
-		document.body.style.overflow = 'hidden';
-		document.body.style.position = 'fixed';
-		document.body.style.width = '100%';
+		Object.assign(document.body.style, {
+			top: `-${window.scrollY}px`,
+			overflow: 'hidden',
+			position: 'fixed',
+			width: '100%',
+		});
 	}
+
 	isMenuOpen.value = !isMenuOpen.value;
 };
 
 const closeMenu = () => {
-	if (!isMenuOpen.value) return;
-	toggleMenu();
+	if (isMenuOpen.value) toggleMenu();
 };
 
 const handleScroll = () => {
 	const scrollY = window.scrollY;
-	if (window.innerWidth > 1024) {
-		isCompact.value = scrollY > 250;
-	}
+	isCompact.value = window.innerWidth > 1024 && scrollY > 250;
 
 	if (window.innerWidth <= 1024 && window.innerWidth > window.innerHeight) {
-		isHidden.value =
-			scrollY > lastScrollY + 60
-				? true
-				: scrollY < lastScrollY - 60
-				? false
-				: isHidden.value;
+		scrollUpDistance =
+			scrollY < lastScrollY ? scrollUpDistance + (lastScrollY - scrollY) : 0;
+		isHidden.value = scrollY > lastScrollY || scrollUpDistance < 60;
+	} else {
+		isHidden.value = false;
 	}
 	lastScrollY = scrollY;
 };
@@ -96,7 +103,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 	&--compact {
 		@media (min-width: 1025px) {
 			padding: 10px 15px;
-			justify-content: center;
 		}
 	}
 
@@ -115,6 +121,9 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 		display: flex;
 		width: max-content;
 		gap: 20px;
+		left: 0;
+		position: relative;
+		transition: left 0.3s ease-in-out, transform 0.3s ease;
 
 		@media (max-width: 768px) {
 			position: absolute;
@@ -130,6 +139,14 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
 		&--open {
 			right: 0;
+		}
+
+		&--compact {
+			@media (min-width: 1025px) {
+				transition: left 0.3s ease-in-out, transform 0.3s ease;
+				left: calc(50% - 145px);
+				transform: translateX(-50%);
+			}
 		}
 	}
 
