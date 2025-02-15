@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 
 const isMenuOpen = ref(false);
 const isCompact = ref(false);
@@ -42,25 +42,28 @@ const isHidden = ref(false);
 let lastScrollY = window.scrollY;
 let scrollUpDistance = 0;
 
+const enableScroll = () => {
+	document.body.style.overflow = '';
+	document.body.style.position = '';
+	document.body.style.width = '';
+	document.body.style.top = '';
+};
+
+const disableScroll = () => {
+	document.body.style.top = `-${window.scrollY}px`;
+	document.body.style.overflow = 'hidden';
+	document.body.style.position = 'fixed';
+	document.body.style.width = '100%';
+};
+
 const toggleMenu = () => {
 	if (isMenuOpen.value) {
 		const scrollY = Math.abs(parseInt(document.body.style.top || '0'));
-		Object.assign(document.body.style, {
-			overflow: '',
-			position: '',
-			width: '',
-			top: '',
-		});
+		enableScroll();
 		window.scrollTo(0, scrollY);
 	} else {
-		Object.assign(document.body.style, {
-			top: `-${window.scrollY}px`,
-			overflow: 'hidden',
-			position: 'fixed',
-			width: '100%',
-		});
+		disableScroll();
 	}
-
 	isMenuOpen.value = !isMenuOpen.value;
 };
 
@@ -82,8 +85,27 @@ const handleScroll = () => {
 	lastScrollY = scrollY;
 };
 
-onMounted(() => window.addEventListener('scroll', handleScroll));
-onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+const handleResize = () => {
+	if (window.innerWidth > 768 && isMenuOpen.value) {
+		enableScroll();
+		isMenuOpen.value = false;
+	}
+};
+
+onMounted(() => {
+	window.addEventListener('scroll', handleScroll);
+	window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+	window.removeEventListener('scroll', handleScroll);
+	window.removeEventListener('resize', handleResize);
+	enableScroll();
+});
+
+watch(isMenuOpen, (open) => {
+	if (!open) enableScroll();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -121,13 +143,12 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 		display: flex;
 		width: max-content;
 		gap: 20px;
-		left: 0;
 		position: relative;
 		transition: left 0.3s ease-in-out, transform 0.3s ease;
 
 		@media (max-width: 768px) {
 			position: absolute;
-			top: 100%;
+			top: 99%;
 			right: -230px;
 			flex-direction: column;
 			width: 200px;
@@ -135,6 +156,10 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 			background: var(--blue-color);
 			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 			transition: right 0.3s ease-in-out;
+		}
+
+		@media (min-width: 769px) {
+			left: 0;
 		}
 
 		&--open {
