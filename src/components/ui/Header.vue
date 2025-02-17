@@ -75,12 +75,14 @@ const handleScroll = () => {
 	const scrollY = window.scrollY;
 	isCompact.value = window.innerWidth > 1024 && scrollY > 250;
 
-	if (window.innerWidth <= 1024 && window.innerWidth > window.innerHeight) {
-		scrollUpDistance =
-			scrollY < lastScrollY ? scrollUpDistance + (lastScrollY - scrollY) : 0;
-		isHidden.value = scrollY > lastScrollY || scrollUpDistance < 60;
-	} else {
-		isHidden.value = false;
+	if (window.innerWidth <= 1024) {
+		if (window.innerWidth > window.innerHeight) {
+			scrollUpDistance =
+				scrollY < lastScrollY ? scrollUpDistance + (lastScrollY - scrollY) : 0;
+			isHidden.value = scrollY > lastScrollY || scrollUpDistance < 60;
+		} else {
+			isHidden.value = false;
+		}
 	}
 	lastScrollY = scrollY;
 };
